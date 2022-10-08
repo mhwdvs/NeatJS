@@ -1,4 +1,0 @@
-theme: jekyll-theme-cayman
-url: "https://GabrielTavernini.github.io"
-baseurl: "/NeatJS"
-include: [./src, ./Examples]
