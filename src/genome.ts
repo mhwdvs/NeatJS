@@ -1,7 +1,19 @@
-//The Genome Class
-//Well.. this is the main class
-//This is where all the magic appends
-class Genome {
+import d3 from 'd3';
+
+import { Connection } from './connection';
+import { Node } from './node';
+import { ACTIVATION_FUNCTIONS } from './activationFunctions';
+
+export class Genome {
+	inputs: number;
+	outputs: number;
+	id: string;
+	layers: number;
+	nextNode: number;
+
+	nodes: Node[];
+	connections: Connection[];
+
 	constructor(inp, out, id, offSpring = false) {
 		this.inputs = inp; //Number of inputs
 		this.outputs = out; //Number of outputs
@@ -14,7 +26,7 @@ class Genome {
 
 		if(!offSpring) { //This is not an offspring genome generate a fullyConnected net
 			for (let i = 0; i < this.inputs; i++) {
-				this.nodes.push(new Node(this.nextNode, 0));
+				this.nodes.push(new Node(this.nextNode, 0, false));
 				this.nextNode++;
 			}
 
@@ -184,7 +196,7 @@ class Genome {
 		this.connections.splice(connectionIndex, 1); //Delete the connection
 
 		//Create the new node
-		let newNode = new Node(this.nextNode, pickedConnection.fromNode.layer + 1);
+		let newNode = new Node(this.nextNode, pickedConnection.fromNode.layer + 1, false);
 		this.nodes.forEach((node) => { //Shift all nodes layer value
 			if (node.layer > pickedConnection.fromNode.layer)
 				node.layer++;
@@ -372,7 +384,7 @@ class Genome {
 		node.append("text")
 			.attr("dx", 12)
 			.attr("dy", ".35em")
-			.text(function(d) { return d.number + (d.layer > 0 ? "(" + activationsNames[d.activationFunction] + ")" : null) });
+			.text(function(d) { return d.number + (d.layer > 0 ? "(" + ACTIVATION_FUNCTIONS[d.activationFunction] + ")" : null) });
 
 		force.on("tick", function () {
 			link.attr("x1", function (d) { return d.source.x; })
