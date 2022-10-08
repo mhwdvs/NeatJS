@@ -1,20 +1,7 @@
-import d3 from 'd3';
-
-import { Node } from './node'
-import { Connection } from './connection'
-
 //The Genome Class
 //Well.. this is the main class
 //This is where all the magic appends
-export class Genome {
-	inputs: number;
-	outputs: number;
-	id: string;
-	layers: number;
-	nextNode: number;
-	nodes: Node[];
-	connections: Connection[];
-
+class Genome {
 	constructor(inp, out, id, offSpring = false) {
 		this.inputs = inp; //Number of inputs
 		this.outputs = out; //Number of outputs
@@ -27,7 +14,7 @@ export class Genome {
 
 		if(!offSpring) { //This is not an offspring genome generate a fullyConnected net
 			for (let i = 0; i < this.inputs; i++) {
-				this.nodes.push(new Node(this.nextNode, 0, false));
+				this.nodes.push(new Node(this.nextNode, 0));
 				this.nextNode++;
 			}
 
@@ -40,7 +27,7 @@ export class Genome {
 
 			for (let i = 0; i < this.inputs; i++) {
 				for (let j = this.inputs; j < this.outputs + this.inputs; j++) {
-					let weight = Math.random() * this.inputs * Math.sqrt(2 / this.inputs);
+					let weight = Math.random() * 4 - 2;
 					this.connections.push(new Connection(this.nodes[i], this.nodes[j], weight));
 				}
 			}
@@ -74,7 +61,7 @@ export class Genome {
 			this.nodes[i].outputValue = inputValues[i];
 
 		//Engage all nodes and Extract the results from the outputs
-		let result: number[] = [];
+		let result = [];
 		this.nodes.forEach((node) => {
 			node.engage();
 
@@ -197,7 +184,7 @@ export class Genome {
 		this.connections.splice(connectionIndex, 1); //Delete the connection
 
 		//Create the new node
-		let newNode = new Node(this.nextNode, pickedConnection.fromNode.layer + 1, false);
+		let newNode = new Node(this.nextNode, pickedConnection.fromNode.layer + 1);
 		this.nodes.forEach((node) => { //Shift all nodes layer value
 			if (node.layer > pickedConnection.fromNode.layer)
 				node.layer++;
@@ -272,7 +259,7 @@ export class Genome {
 	fullyConnected() {
 		//check if the network is fully connected
 		let maxConnections = 0;
-		let nodesPerLayer: number[] = [];
+		let nodesPerLayer = [];
 
 		//Calculate all possible connections
 		this.nodes.forEach((node) => {
@@ -317,13 +304,13 @@ export class Genome {
 		return this.connections.length + this.nodes.length;
 	}
 
-	draw(width = 400, height = 400, container = "svgContainer") { //Draw the genome to a svg
+	draw(svgContainer) { //Draw the genome to a svg
 		var element = document.getElementById(this.id);
-		if (element){
-			if(element.parentNode){
-				element.parentNode.removeChild(element);
-			}
-		}
+		if (element)
+			element.parentNode.removeChild(element);
+
+		var width = 350,
+			height = 350;
 
 		var svg = d3.select("body").append("svg")
 			.attr("width", width)
@@ -338,9 +325,9 @@ export class Genome {
 			.size([width, height]);
 
 
-		let connections: Connection[] = [];
+		let connections = [];
 		this.connections.forEach(conn => {
-			connections.push({ fromNode: this.getNode(conn.fromNode.number), toNode: this.getNode(conn.toNode.number), weight: conn.weight, enabled: conn.enabled });
+			connections.push({ source: this.getNode(conn.fromNode.number), target: this.getNode(conn.toNode.number), weight: conn.weight, enabled: conn.enabled });
 		});
 
 		let nodes = [];
@@ -349,7 +336,7 @@ export class Genome {
 			if(node.layer == 0) {
 				node.fixed = true;
 				node.y =  height - (height * 0.2);
-				node.x = ((width/this.inputs) * node.number) + (width/this.inputs)/2;
+				node.x = ((width/this.inputs) * node.number) + (width/this.inputs)/3;
 			}
 
 			if(node.output) {
@@ -397,6 +384,6 @@ export class Genome {
 		});
 
 		var element = document.getElementById(this.id);
-		document.getElementById(container).append(element);
+		document.getElementById(svgContainer).append(element);
 	}
 }

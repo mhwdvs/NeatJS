@@ -1,20 +1,11 @@
-import p5 from 'p5';
-
-import { Node } from './node';
-
 //The Connection Class
 //Is where all the weights are stored
 //Mostly used for a cleaner and more readable code.
-export class Connection {
-	fromNode: Node;
-	toNode: Node;
-	weight: number;
-	enabled: boolean;
-
-	constructor(from: Node, to: Node, weight: number){
-		this.fromNode = from;
-		this.toNode = to;
-		this.weight = weight;
+class Connection {
+	constructor(from, to, weight){
+		this.fromNode = from; //type: Node
+		this.toNode = to; //type: Node
+		this.weight = weight; //type: Number
 		this.enabled = true;
 	}
 
@@ -23,7 +14,7 @@ export class Connection {
 		if (rand < 0.05) //5% chance of being assigned a new random value
 			this.weight = Math.random() * 2 - 1;
 		else //95% chance of being uniformly perturbed
-			this.weight += p5.randomGaussian() / 50;
+			this.weight += p5.prototype.randomGaussian() / 50;
 	}
 
 	clone(){ //Returns a copy of this connection
