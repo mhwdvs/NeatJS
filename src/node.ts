@@ -1,7 +1,19 @@
+import p5 from 'p5';
+
+import { Connection } from "./connection";
+
 var activationsNames = ["Sigmoid", "Identity", "Step", "Tanh", "ReLu"]; //Used in the svg drawing
 
 export class Node {
 	number: number;
+	layer: number;
+	activationFunction: number;
+	bias: number;
+	output: boolean;
+
+	inputSum: number;
+	outputValue: number;
+	outputConnections: Connection[];
 
 	constructor(num, lay, isOutput) {
 		this.number = num;
@@ -83,7 +95,7 @@ export class Node {
 				return x < 0 ? 0 : x;
 				break;
 			default: //Sigmoid
-				return 1 / (1 + pow(Math.E, -4.9 * x));
+				return 1 / (1 + p5.pow(Math.E, -4.9 * x));
 				break;
 		}
 	}
