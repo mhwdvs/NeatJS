@@ -11,7 +11,7 @@ function setup() {
 	background(61);
 
 	//Initialize the population
-	population = new Population(50);
+	population = new Population(50, 2, 1);
 	
 	//Generate and Draw points
 	for(let i = 0; i < 200; i++) {

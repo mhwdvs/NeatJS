@@ -2,7 +2,7 @@
 //The interface between our 
 //NeuralNetwork and the game 
 class Player{
-	constructor(id){
+	constructor(genomeInputsN, genomeOutputN, id){
 		this.brain = new Genome(genomeInputsN, genomeOutputN, id);
 		this.fitness;
 

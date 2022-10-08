@@ -1,12 +1,10 @@
-let genomeInputsN = 2;
-let genomeOutputN = 1;
 let showBest = true;
 
 //The Population Class
 //Here is where the power of all the classes
 //comes together to destroy the game score records
 class Population{
-	constructor(size){
+	constructor(size, genomeInputsN, genomeOutputN){
 		this.population = [];
 		this.bestPlayer;
 		this.bestFitness = 0;
@@ -15,7 +13,7 @@ class Population{
 		this.matingPool = [];
 
 		for(let i = 0; i < size; i++){
-			this.population.push(new Player(i));
+			this.population.push(new Player(genomeInputsN, genomeOutputN, i));
 			this.population[i].brain.generateNetwork();
 			this.population[i].brain.mutate();
 		}
