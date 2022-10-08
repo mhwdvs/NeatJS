@@ -3,16 +3,17 @@
 A JavaScript implementation of the Neat Algorithm. <br/>
 Genome Drawing done using D3.js
 
+## Build
+
+- `npm install`
+- `npx ts`
+
 ## Usage
 
-- Include all library sources
+- Import the library into your project
 
-```html
-<script src="population.js"></script>
-<script src="player.js"></script>
-<script src="node.js"></script>
-<script src="connection.js"></script>
-<script src="genome.js"></script>
+```ts
+import { Connection, Genome, Node, Player, Population } from "neat";
 ```
 
 - If one doesn't exist already, create a driving script file (in the examples this is `sketch.js`)

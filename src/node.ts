@@ -1,8 +1,21 @@
+import p5 from 'p5';
+
+import { Connection } from './connection'
+
 var activationsNames = ["Sigmoid", "Identity", "Step", "Tanh", "ReLu"]; //Used in the svg drawing
 
 //The Node Class
 //This is where math appends
-class Node {
+export class Node {
+	number: number;
+	layer: number;
+	activationFunction: number;
+	bias: number;
+	output: boolean;
+	inputSum: number;
+	outputValue: number;
+	outputConnections: Connection[];
+
 	constructor(num, lay, isOutput) {
 		this.number = num;
 		this.layer = lay;
@@ -31,7 +44,7 @@ class Node {
 		if (rand < 0.05) //5% chance of being assigned a new random value
 			this.bias = Math.random() * 2 - 1;
 		else //95% chance of being uniformly perturbed
-			this.bias += randomGaussian() / 50;
+			this.bias += p5.randomGaussian() / 50;
 	}
 
 	mutateActivation() { //Randomly choose a new activationFunction
@@ -69,22 +82,16 @@ class Node {
 		switch (this.activationFunction) {
 			case 0: //Sigmoid
 				return 1 / (1 + Math.pow(Math.E, -4.9 * x));
-				break;
 			case 1: //Identity
 				return x;
-				break;
 			case 2: //Step
 				return x > 0 ? 1 : 0;
-				break;
 			case 3: //Tanh
 				return Math.tanh(x);
-				break;
 			case 4: //ReLu
 				return x < 0 ? 0 : x;
-				break;
 			default: //Sigmoid
 				return 1 / (1 + Math.pow(Math.E, -4.9 * x));
-				break;
 		}
 	}
 }

@@ -1,7 +1,20 @@
+import d3 from 'd3';
+
+import { Node } from './node'
+import { Connection } from './connection'
+
 //The Genome Class
 //Well.. this is the main class
 //This is where all the magic appends
-class Genome {
+export class Genome {
+	inputs: number;
+	outputs: number;
+	id: string;
+	layers: number;
+	nextNode: number;
+	nodes: Node[];
+	connections: Connection[];
+
 	constructor(inp, out, id, offSpring = false) {
 		this.inputs = inp; //Number of inputs
 		this.outputs = out; //Number of outputs
@@ -14,7 +27,7 @@ class Genome {
 
 		if(!offSpring) { //This is not an offspring genome generate a fullyConnected net
 			for (let i = 0; i < this.inputs; i++) {
-				this.nodes.push(new Node(this.nextNode, 0));
+				this.nodes.push(new Node(this.nextNode, 0, false));
 				this.nextNode++;
 			}
 
@@ -61,7 +74,7 @@ class Genome {
 			this.nodes[i].outputValue = inputValues[i];
 
 		//Engage all nodes and Extract the results from the outputs
-		let result = [];
+		let result: number[] = [];
 		this.nodes.forEach((node) => {
 			node.engage();
 
@@ -184,7 +197,7 @@ class Genome {
 		this.connections.splice(connectionIndex, 1); //Delete the connection
 
 		//Create the new node
-		let newNode = new Node(this.nextNode, pickedConnection.fromNode.layer + 1);
+		let newNode = new Node(this.nextNode, pickedConnection.fromNode.layer + 1, false);
 		this.nodes.forEach((node) => { //Shift all nodes layer value
 			if (node.layer > pickedConnection.fromNode.layer)
 				node.layer++;
@@ -259,7 +272,7 @@ class Genome {
 	fullyConnected() {
 		//check if the network is fully connected
 		let maxConnections = 0;
-		let nodesPerLayer = [];
+		let nodesPerLayer: number[] = [];
 
 		//Calculate all possible connections
 		this.nodes.forEach((node) => {
@@ -306,8 +319,11 @@ class Genome {
 
 	draw(width = 400, height = 400, container = "svgContainer") { //Draw the genome to a svg
 		var element = document.getElementById(this.id);
-		if (element)
-			element.parentNode.removeChild(element);
+		if (element){
+			if(element.parentNode){
+				element.parentNode.removeChild(element);
+			}
+		}
 
 		var svg = d3.select("body").append("svg")
 			.attr("width", width)
@@ -322,9 +338,9 @@ class Genome {
 			.size([width, height]);
 
 
-		let connections = [];
+		let connections: Connection[] = [];
 		this.connections.forEach(conn => {
-			connections.push({ source: this.getNode(conn.fromNode.number), target: this.getNode(conn.toNode.number), weight: conn.weight, enabled: conn.enabled });
+			connections.push({ fromNode: this.getNode(conn.fromNode.number), toNode: this.getNode(conn.toNode.number), weight: conn.weight, enabled: conn.enabled });
 		});
 
 		let nodes = [];

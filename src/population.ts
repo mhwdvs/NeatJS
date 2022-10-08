@@ -1,9 +1,17 @@
+import { Player } from './player'
+
 let showBest = true;
 
 //The Population Class
 //Here is where the power of all the classes
 //comes together to destroy the game score records
-class Population{
+export class Population{
+	population: Player[];
+	bestPlayer: Player;
+	bestFitness: number;
+	generation: number;
+	matingPool: number[];
+
 	constructor(size, genomeInputsN, genomeOutputN){
 		this.population = [];
 		this.bestPlayer;
@@ -13,7 +21,7 @@ class Population{
 		this.matingPool = [];
 
 		for(let i = 0; i < size; i++){
-			this.population.push(new Player(genomeInputsN, genomeOutputN, i));
+			this.population.push(new Player(genomeInputsN, genomeOutputN, i.toString()));
 			this.population[i].brain.generateNetwork();
 			this.population[i].brain.mutate();
 		}
@@ -54,7 +62,7 @@ class Population{
 
 		let averageSum = this.getAverageScore();
 		console.log(averageSum);
-		let children = [];
+		let children: Player[] = [];
 		
 		this.fillMatingPool();
 		for(let i = 0; i < this.population.length; i++){
@@ -84,7 +92,7 @@ class Population{
 
 	calculateFitness(){
 		let currentMax = 0;
-		this.population.forEach((element) => { 
+		this.population.forEach((element: Player) => { 
 			element.calculateFitness();
 			if(element.fitness > this.bestFitness){
 				this.bestFitness = element.fitness;

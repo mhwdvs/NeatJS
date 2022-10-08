@@ -1,0 +1,24 @@
+{
+  "name": "neat",
+  "version": "1.0.0",
+  "description": "A TypeScript implementation of the NEAT Algorithm, including Genome drawing",
+  "main": "dist/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhwdvs/NeatJS.git"
+  },
+  "author": "mhwdvs",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/mhwdvs/NeatJS/issues"
+  },
+  "homepage": "https://github.com/mhwdvs/NeatJS#readme",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "d3": "^7.6.1",
+    "p5": "^1.4.2"
+  }
+}
