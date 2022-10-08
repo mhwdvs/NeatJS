@@ -1,8 +1,14 @@
-//The Population Class
-//Here is where the power of all the classes
-//comes together to destroy the game score records
-class Population{
-	constructor(size){
+import { Player } from './player';
+
+export class Population{
+	population: Player[];
+	bestPlayer: Player;
+	bestFitness: number; // warn: redundant, stored on bestPlayer
+	bestScore: number; // warn: redundant, stored on bestPlayer
+	generation: number;
+	matingPool: any[]; // todo: determine type
+
+	constructor(size: number){
 		this.population = [];
 		this.bestPlayer;
 		this.bestFitness = 0;
