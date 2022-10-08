@@ -1,9 +1,11 @@
 {
     "compilerOptions": {
-      "module": "commonjs",
-      "target": "es2015",
+      "module": "es6",
+      "target": "es6",
       "declaration": true,
-      "outDir": "./dist"
+      "outDir": "./dist",
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node"
     },
     "include": [
       "src/**/*"

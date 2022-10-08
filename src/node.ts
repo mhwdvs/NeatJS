@@ -1,4 +1,5 @@
 import p5 from 'p5';
+import d3 from 'd3';
 
 import { Connection } from "./connection";
 
@@ -97,7 +98,7 @@ export class Node {
 				return x < 0 ? 0 : x;
 				break;
 			default: //Sigmoid
-				return 1 / (1 + p5.pow(Math.E, -4.9 * x));
+				return 1 / (1 + d3.pow(Math.E, -4.9 * x));
 				break;
 		}
 	}
