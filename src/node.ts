@@ -1,8 +1,8 @@
 var activationsNames = ["Sigmoid", "Identity", "Step", "Tanh", "ReLu"]; //Used in the svg drawing
 
-//The Node Class
-//This is where math appends
-class Node {
+export class Node {
+	number: number;
+
 	constructor(num, lay, isOutput) {
 		this.number = num;
 		this.layer = lay;
