@@ -1,8 +1,3 @@
-
-let genomeInputsN = 3;
-let genomeOutputN = 2;
-let showBest = true;
-
 //The Population Class
 //Here is where the power of all the classes
 //comes together to destroy the game score records

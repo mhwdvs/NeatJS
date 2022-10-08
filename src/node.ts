@@ -2,8 +2,6 @@ import p5 from 'p5';
 
 import { Connection } from "./connection";
 
-var activationsNames = ["Sigmoid", "Identity", "Step", "Tanh", "ReLu"]; //Used in the svg drawing
-
 export class Node {
 	number: number;
 	layer: number;
@@ -14,6 +12,10 @@ export class Node {
 	inputSum: number;
 	outputValue: number;
 	outputConnections: Connection[];
+
+	public fixed: boolean;
+	public x: number;
+	public y: number;
 
 	constructor(num, lay, isOutput) {
 		this.number = num;

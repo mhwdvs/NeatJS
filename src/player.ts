@@ -1,7 +1,15 @@
-//The Player Class
-//The interface between our 
-//NeuralNetwork and the game 
-class Player{
+import { genomeInputsN, genomeOutputN, showBest } from './populationConsts';
+import { Genome } from './genome'
+
+export class Player{
+	brain: Genome;
+	fitness: number;
+	score: number;
+	lifespan: number;
+	dead: boolean;
+	decisions: number[];
+	vision: number[];
+
 	constructor(id){
 		this.brain = new Genome(genomeInputsN, genomeOutputN, id);
 		this.fitness;
@@ -14,13 +22,13 @@ class Player{
 	}
 
 	clone() { //Returns a copy of this player
-		let clone = new Player();
+		let clone = new Player(this.brain.id);
 		clone.brain = this.brain.clone();
 		return clone;
 	}
 
 	crossover(parent){ //Produce a child
-		let child = new Player();
+		let child = new Player(this.brain.id);
 		if(parent.fitness < this.fitness)
 			child.brain = this.brain.crossover(parent.brain);
 		else
